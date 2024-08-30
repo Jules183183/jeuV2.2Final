@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - QuickHit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Connexion</h1>
+        <input type="text" id="loginPseudo" placeholder="Pseudo">
+        <input type="password" id="loginPassword" placeholder="Mot de passe">
+        <button class="btn" onclick="login()">Se connecter</button>
+        <div id="loginError" class="error"></div>
+    </div>
+
+    <script>
+        function login() {
+            const pseudo = document.getElementById('loginPseudo').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginError = document.getElementById('loginError');
+
+            if (pseudo === '' || password === '') {
+                loginError.textContent = 'Veuillez remplir tous les champs.';
+                return;
+            }
+
+            // Vérifier si l'utilisateur existe
+            const user = JSON.parse(localStorage.getItem(`user_${pseudo}`));
+            if (!user || user.password !== password) {
+                loginError.textContent = 'Pseudo ou mot de passe incorrect.';
+                return;
+            }
+
+            // Connexion réussie
+            loginError.textContent = 'Connexion réussie.';
+
+            // Stocker le pseudo dans le localStorage pour utilisation future
+            localStorage.setItem('currentUser', pseudo);
+
+            // Redirection vers la page de jeu
+            setTimeout(() => {
+                window.location.href = 'index2.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
